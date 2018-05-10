@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 
+import java.util.ArrayList;
+
 /**
  * Created by Filipe Natanael on 09/05/2018.
  */
@@ -80,6 +82,22 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
             Contact contact = cursorToContact(cursor);
             return contact;
         }
+    }
+
+    public ArrayList<Contact> getAllContatcs(){
+        ArrayList<Contact> listContatcs = new ArrayList<Contact>();
+        String query = "SELECT * FROM "+TBL_CONTACTS;
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                Contact contato = cursorToContact(cursor);
+                listContatcs.add(contato);
+            } while (cursor.moveToNext());
+        }
+        return listContatcs;
     }
 
 
