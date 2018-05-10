@@ -1,0 +1,5 @@
+*.gradle
+MyApplication/gradle/wrapper/gradle-wrapper.jar
+*.bat
+MyApplication/gradle.properties
+*.pro
