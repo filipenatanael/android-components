@@ -2,6 +2,7 @@ package com.project.fun.the.myapplication.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
@@ -51,4 +52,36 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
         values.put(PHONERNUMBER, contact.getPhonernumber());
         database.insert(TBL_CONTACTS, null, values);
     }
+
+    private Contact cursorToContact(Cursor cursor) {
+        Contact contact = new Contact();
+        contact.setId(Integer.parseInt(cursor.getString(0)));
+        contact.setName(cursor.getString(1));
+        contact.setEmail(cursor.getString(2));
+        contact.setPhonernumber(cursor.getString(3));
+        return contact;
+    }
+
+    public Contact getContact(int id) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(TBL_CONTACTS,
+                COLUNM,
+                " id = ?",
+                new String[] { String.valueOf(id) },
+                null,
+                null,
+                null,
+                null);
+        if (cursor == null) {
+            //if(row == null);
+            return null;
+        } else {
+            cursor.moveToFirst();
+            Contact contact = cursorToContact(cursor);
+            return contact;
+        }
+    }
+
+
+
 }
