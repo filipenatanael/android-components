@@ -1,11 +1,13 @@
 package com.project.fun.the.myapplication.model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 
 /**
- * Created by suporte on 09/05/2018.
+ * Created by Filipe Natanael on 09/05/2018.
  */
 
 public class BDSQLiteHelper  extends SQLiteOpenHelper{
@@ -39,5 +41,14 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS constacts");
+    }
+
+    public void addContact (Contact contact) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NAME, contact.getName());
+        values.put(EMAIL, contact.getEmail());
+        values.put(PHONERNUMBER, contact.getPhonernumber());
+        database.insert(TBL_CONTACTS, null, values);
     }
 }
