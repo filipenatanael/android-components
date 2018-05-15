@@ -4,7 +4,7 @@ package com.project.fun.the.myapplication.model;
  * Created by Filipe Natanael on 09/05/2018.
  */
 
-class Contact {
+public class Contact {
 
     private int id;
     private String name;
