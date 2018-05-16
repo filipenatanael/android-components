@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/listOfContacts"
+        android:id="@+id/listViewContacts"
         android:layout_width="367dp"
         android:layout_height="431dp"
         android:layout_marginTop="17dp"
