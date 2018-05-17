@@ -19,7 +19,7 @@ public class MyContactsActivity extends Activity {
 
     private BDSQLiteHelper database;
     ArrayList<Contact> listOfContacts;
-    private SearchView searchViewContact;
+    private SearchView searchViewContactName;
     private Button btnSearch;
 
     @Override
@@ -27,16 +27,18 @@ public class MyContactsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_contacts);
 
+        database = new BDSQLiteHelper(this);
 
 
-        searchViewContact = (SearchView) findViewById(R.id.searchViewContactName);
+
+        searchViewContactName = (SearchView) findViewById(R.id.searchViewContactName);
         btnSearch = (Button) findViewById(R.id.btnSearch);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(searchViewContact.getQuery().toString().isEmpty()) {
+                if(searchViewContactName.getQuery().toString().isEmpty()) {
                     ListView myList = (ListView) findViewById(R.id.listViewContacts);
                     listOfContacts = database.getAllContatcs();
                     ContactAdapter adapter = new ContactAdapter(MyContactsActivity.this, listOfContacts);
@@ -47,19 +49,20 @@ public class MyContactsActivity extends Activity {
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
                             //Toast.makeText(MyContactsActivity.this, listOfContacts.get(position).getName(), Toast.LENGTH_SHORT).show();
-                            String telefone = listOfContacts.get(position).getPhonernumber().toString();
-                            Uri uri = Uri.parse("tel:"+telefone);
+                            String phonenumber = listOfContacts.get(position).getPhonernumber().toString();
+                            Uri uri = Uri.parse("tel:"+phonenumber);
                             Intent intent = new Intent(Intent.ACTION_DIAL,uri);
                             startActivity(intent);
                         }
                     });
+
                 } else {
-                    ListView lista = (ListView) findViewById(R.id.listViewContacts);
+                    ListView myList = (ListView) findViewById(R.id.listViewContacts);
                     listOfContacts = database.SearchContatcs(searchViewContactName.getQuery().toString());
                     ContactAdapter adapter = new ContactAdapter(MyContactsActivity.this, listOfContacts);
-                    lista.setAdapter(adapter);
+                    myList.setAdapter(adapter);
 
-                    lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
@@ -76,4 +79,24 @@ public class MyContactsActivity extends Activity {
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ListView myList = (ListView) findViewById(R.id.listViewContacts);
+        listOfContacts = database.getAllContatcs();
+        ContactAdapter adapter = new ContactAdapter(this, listOfContacts);
+        myList.setAdapter(adapter);
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String phonenumber = listOfContacts.get(position).getPhonernumber().toString();
+                Uri uri = Uri.parse("tel:"+phonenumber);
+                Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+                startActivity(intent);
+            }
+        });
+    }
+
 }

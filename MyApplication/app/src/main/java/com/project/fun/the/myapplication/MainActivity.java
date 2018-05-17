@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
         btnMyContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainActivity.this, MyContactsActivity.class);
                 startActivity(intent);
             }
         });
