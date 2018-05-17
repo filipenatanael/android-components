@@ -14,32 +14,36 @@ import com.project.fun.the.myapplication.model.Contact;
 public class AddContactsActivity extends Activity {
 
     private BDSQLiteHelper database;
-    private EditText editTextName;
-    private EditText editTextPhone;
-    private Button btnAddNewContact;
+    private EditText name;
+    private EditText phonerNumber;
+    private Button btnNewContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contacts);
 
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextPhone = (EditText) findViewById(R.id.editTextPhone);
-        btnAddNewContact = (Button) findViewById(R.id.btnAddNewContact);
+        database = new BDSQLiteHelper(this);
 
-        btnAddNewContact.setOnClickListener(new View.OnClickListener() {
+        name = (EditText) findViewById(R.id.editTextName);
+        phonerNumber = (EditText) findViewById(R.id.editTextPhone);
+
+        btnNewContact = (Button) findViewById(R.id.btnAddNewContact);
+
+        btnNewContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!editTextName.getText().toString().isEmpty() && !editTextPhone.getText().toString().isEmpty()) {
-                    Contact contato = new Contact();
-                    contato.setName(editTextName.getText().toString());
-                    contato.setName(editTextPhone.getText().toString());
-                    database.addContact(contato);
+                if (!name.getText().toString().isEmpty() && !phonerNumber.getText().toString().isEmpty()) {
+                    Contact contact = new Contact();
+                    contact.setName(name.getText().toString());
+                    contact.setPhonernumber(phonerNumber.getText().toString());
+                    contact.setEmail("myEmail@example.com".toString());
+                    database.addContact(contact);
 
-                    Toast.makeText(getBaseContext(), editTextName.getText().toString()+" Was added!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), name.getText().toString()+" Was added!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getBaseContext(), editTextPhone.getText().toString()+" All campuses must be completed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), phonerNumber.getText().toString()+" All campuses must be completed.", Toast.LENGTH_SHORT).show();
                 }
 
             }

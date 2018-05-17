@@ -34,7 +34,7 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_TABLE = "CREATE TABLE contacts("+
-                "id INTEGER PRIMARY KEY AOTOINCREMENT,"+
+                "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 "name TEXT,"+
                 "email TEXT,"+
                 "phonernumber TEXT)";
@@ -46,13 +46,14 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS constacts");
     }
 
-    public void addContact (Contact contact) {
+    public void addContact(Contact contact) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(NAME, contact.getName());
         values.put(EMAIL, contact.getEmail());
         values.put(PHONERNUMBER, contact.getPhonernumber());
         database.insert(TBL_CONTACTS, null, values);
+        database.close();
     }
 
     private Contact cursorToContact(Cursor cursor) {
@@ -93,8 +94,8 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
 
         if(cursor.moveToFirst()){
             do {
-                Contact contato = cursorToContact(cursor);
-                listContatcs.add(contato);
+                Contact contact = cursorToContact(cursor);
+                listContatcs.add(contact);
             } while (cursor.moveToNext());
         }
         return listContatcs;
@@ -102,7 +103,7 @@ public class BDSQLiteHelper  extends SQLiteOpenHelper{
 
     public ArrayList<Contact> SearchContatcs(String name){
         ArrayList<Contact> listContatcs = new ArrayList<Contact>();
-        String query = "SELECT * FROM "+TBL_CONTACTS+" WHERE nome LIKE '%"+name+"%'";
+        String query = "SELECT * FROM "+TBL_CONTACTS+" WHERE name LIKE '%"+name+"%'";
 
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.rawQuery(query, null);

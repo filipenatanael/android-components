@@ -27,6 +27,8 @@ public class MyContactsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_contacts);
 
+        database = new BDSQLiteHelper(this);
+
 
 
         searchViewContactName = (SearchView) findViewById(R.id.searchViewContactName);
@@ -53,13 +55,14 @@ public class MyContactsActivity extends Activity {
                             startActivity(intent);
                         }
                     });
+
                 } else {
-                    ListView lista = (ListView) findViewById(R.id.listViewContacts);
+                    ListView myList = (ListView) findViewById(R.id.listViewContacts);
                     listOfContacts = database.SearchContatcs(searchViewContactName.getQuery().toString());
                     ContactAdapter adapter = new ContactAdapter(MyContactsActivity.this, listOfContacts);
-                    lista.setAdapter(adapter);
+                    myList.setAdapter(adapter);
 
-                    lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
@@ -76,4 +79,24 @@ public class MyContactsActivity extends Activity {
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ListView myList = (ListView) findViewById(R.id.listViewContacts);
+        listOfContacts = database.getAllContatcs();
+        ContactAdapter adapter = new ContactAdapter(this, listOfContacts);
+        myList.setAdapter(adapter);
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String phonenumber = listOfContacts.get(position).getPhonernumber().toString();
+                Uri uri = Uri.parse("tel:"+phonenumber);
+                Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+                startActivity(intent);
+            }
+        });
+    }
+
 }

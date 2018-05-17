@@ -33,14 +33,14 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.line_layout, parent, false);
 
-        TextView nome = (TextView) rowView.findViewById(R.id.txtViewName);
-        TextView telefone = (TextView) rowView.findViewById(R.id.txtViewPhone);
-        ImageView imgViewProfile = (ImageView) rowView.findViewById(R.id.imgViewProfile);
+        TextView name = (TextView) rowView.findViewById(R.id.txtViewName);
+        TextView phoneNumber = (TextView) rowView.findViewById(R.id.txtViewPhone);
+        ImageView imgProfile = (ImageView) rowView.findViewById(R.id.imgViewProfile);
 
-        nome.setText(elements.get(position).getName());
-        telefone.setText(elements.get(position).getPhonernumber());
+        name.setText(elements.get(position).getName());
+        phoneNumber.setText(elements.get(position).getPhonernumber());
 
-        imgViewProfile.setImageResource(R.drawable.profile);
+        imgProfile.setImageResource(R.drawable.profile);
 
         return rowView;
     }
